@@ -24,7 +24,7 @@ public class Animals extends Toy {
      * @param size           Size of the toy ('S' for Small, 'M' for Medium, 'L' for Large).
      * @throws IllegalArgumentException if serial number or size is invalid.
      */
-    protected Animals(String sn, String name, String brand, double price, int availableCount, int ageAppropriate,
+    public Animals(String sn, String name, String brand, double price, int availableCount, int ageAppropriate,
                       String material, char size) {
         super(sn, name, brand, price, availableCount, ageAppropriate);
 

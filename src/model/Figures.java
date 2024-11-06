@@ -22,7 +22,7 @@ public class Figures extends Toy {
      * @param classification Classification type ('A' for Action, 'D' for Doll, 'H' for Historic).
      * @throws IllegalArgumentException if serial number or classification is invalid.
      */
-    protected Figures(String sn, String name, String brand, double price, int availableCount, int ageAppropriate,
+    public Figures(String sn, String name, String brand, double price, int availableCount, int ageAppropriate,
                       char classification) {
         super(sn, name, brand, price, availableCount, ageAppropriate);
 

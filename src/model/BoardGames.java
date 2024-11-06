@@ -25,11 +25,11 @@ public class BoardGames extends Toy {
      * @param ageAppropriate Minimum age appropriate for the board game.
      * @param minPlayers     Minimum number of players for the game.
      * @param maxPlayers     Maximum number of players for the game.
-     * @param designers      A comma-separated string of designer names.
+     * @param designer       A comma-separated string of designer names.
      * @throws IllegalArgumentException if serial number, player range, or designers are invalid.
      */
     public BoardGames(String sn, String name, String brand, double price, int availableCount, int ageAppropriate,
-                      int minPlayers, int maxPlayers, String designers) {
+                      int minPlayers, int maxPlayers, String designer) {
         super(sn, name, brand, price, availableCount, ageAppropriate);
 
         // Validate that the serial number starts with 7, 8, or 9 and is 10 digits
@@ -46,7 +46,7 @@ public class BoardGames extends Toy {
         this.maxPlayers = maxPlayers;
 
         // Split the designers by comma and trim any leading/trailing whitespace from each name
-        this.designers = Arrays.stream(designers.split(","))
+        this.designers = Arrays.stream(designer.split(","))
                                .map(String::trim)
                                .toArray(String[]::new);
     }
