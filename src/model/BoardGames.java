@@ -1,14 +1,14 @@
 package model;
 
-import java.io.File;
 import java.util.Arrays;
-import java.util.Scanner;
 
 /**
- * Represents a Board Game toy with a player range and designers.
+ * Represents a Board Game toy with a player range and a list of designers.
+ * Extends the Toy superclass and includes additional attributes specific to
+ * board games.
  * 
- * @author Justin, Fatema, Manveet
  * @version 1.0
+ * @author Justin, Fatema, Manveet
  */
 public class BoardGames extends Toy {
 
@@ -55,30 +55,36 @@ public class BoardGames extends Toy {
 	}
 
 	/**
-	 * @return the minimum number of players
+	 * Gets the minimum number of players for the board game.
+	 * 
+	 * @return the minimum number of players as an integer.
 	 */
 	public int getMinPlayers() {
 		return minPlayers;
 	}
 
 	/**
-	 * @return the maximum number of players
+	 * Gets the maximum number of players for the board game.
+	 * 
+	 * @return the maximum number of players as an integer.
 	 */
 	public int getMaxPlayers() {
 		return maxPlayers;
 	}
 
 	/**
-	 * @return the array of designers
+	 * Gets the list of designers for the board game.
+	 * 
+	 * @return an array of designer names.
 	 */
 	public String[] getDesigners() {
 		return designers;
 	}
 
 	/**
-	 * Sets the designers for the board game.
+	 * Sets the list of designers for the board game.
 	 *
-	 * @param designers array of designer names
+	 * @param designers an array of designer names.
 	 */
 	public void setDesigners(String[] designers) {
 		this.designers = designers;
@@ -87,7 +93,7 @@ public class BoardGames extends Toy {
 	/**
 	 * Returns the toy type as "BoardGame".
 	 *
-	 * @return the toy type
+	 * @return a string indicating the toy type as "BoardGame".
 	 */
 	@Override
 	public String getToyType() {
@@ -95,9 +101,10 @@ public class BoardGames extends Toy {
 	}
 
 	/**
-	 * Returns a formatted string with details specific to the Board Game toy.
+	 * Returns a formatted string representation of the board game's details,
+	 * including the player range and designer names.
 	 *
-	 * @return a string representation of the board game's details
+	 * @return a string representation of the board game's details.
 	 */
 	@Override
 	public String toString() {
@@ -106,13 +113,16 @@ public class BoardGames extends Toy {
 	}
 
 	/**
-	 * Returns a string formatted for saving to `toys.txt`.
+	 * Returns a string formatted for saving the board game toy's data to a file.
+	 * The format is compatible with the `toys.txt` file and includes all relevant
+	 * details about the toy, separated by semicolons.
 	 *
-	 * @return a string representation of the toy's data for file storage
+	 * @return a string representation of the toy's data for file storage.
 	 */
 	@Override
 	public String toDataString() {
-		return String.join(";", sn, name, brand, String.valueOf(price), String.valueOf(availableCount),
-				String.valueOf(ageAppropriate), minPlayers + "-" + maxPlayers, String.join(", ", designers));
+		return String.join(";", getSn(), getName(), getBrand(), String.valueOf(getPrice()),
+				String.valueOf(getAvailableCount()), String.valueOf(getAgeAppropriate()), minPlayers + "-" + maxPlayers,
+				String.join(", ", designers));
 	}
 }

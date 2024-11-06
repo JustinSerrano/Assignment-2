@@ -9,15 +9,15 @@ import java.util.*;
 /**
  * Manages the toy inventory, including loading data from file and displaying
  * the main menu. ToyManager reads the toy data from `toys.txt`, creates Toy
- * objects, and provides a menu interface.
+ * objects, and provides a menu interface for user interaction.
  * 
- * @author Justin, Fatema, Manveet
- * @version 1.0
+ * @version 1.0 author Justin, Fatema, Manveet
  */
 public class ToyManager {
 
 	private static final String FILE_PATH = "res/toys.txt"; // Path to toy data file
 	private AppMenu menu = new AppMenu(); // Menu for displaying application options
+	private Scanner input = new Scanner(System.in);
 	private ArrayList<Toy> toys = new ArrayList<>(); // List to store all loaded toy objects
 
 	/**
@@ -39,7 +39,7 @@ public class ToyManager {
 		try {
 			File file = new File(FILE_PATH);
 
-			// Check if the file exists, create a new one if not
+			// Check if the file exists; create a new one if not
 			if (!file.exists()) {
 				file.createNewFile();
 				System.out.println("Created new file: " + FILE_PATH);
@@ -118,9 +118,9 @@ public class ToyManager {
 			select = menu.showMainMenu(); // Guaranteed to be valid (1–4)
 
 			switch (select) {
-			case 1:
-				// TODO: Implement functionality for option 1 (e.g., search inventory)
-				
+			case 1: // Implement functionality for option 1 (e.g., search inventory)
+				int searchOption = menu.showSearchMenu(); // Prompt user for search menu option
+				handleSearch(searchOption); // Call handleSearch with the selected search option
 				break;
 			case 2:
 				// TODO: Implement functionality for option 2 (e.g., add new toy)
@@ -133,5 +133,164 @@ public class ToyManager {
 				break;
 			}
 		} while (select != 4); // Loop until user chooses to exit
+	}
+
+	/**
+	 * Handles the search functionality based on the user's choice in the search
+	 * menu.
+	 * 
+	 * @param select The user's choice from the search menu.
+	 */
+	private void handleSearch(int select) {
+		List<String> formattedResults;
+		int choice;
+
+		switch (select) {
+		case 1: // Search by Serial Number
+			System.out.print("\nEnter Serial Number (SN): ");
+			String serialNumber = input.nextLine();
+			formattedResults = searchBySerialNumber(serialNumber);
+			choice = menu.displaySearchResults(formattedResults);
+			processSearchChoice(choice, formattedResults.size());
+			break;
+		case 2: // Search by Toy Name
+			System.out.print("\nEnter Toy Name: ");
+			String toyName = input.nextLine();
+			formattedResults = searchByName(toyName);
+			choice = menu.displaySearchResults(formattedResults);
+			processSearchChoice(choice, formattedResults.size());
+			break;
+		case 3: // Search by Type
+			System.out.print("\nEnter Type: ");
+			String toyType = input.nextLine();
+			formattedResults = searchByType(toyType);
+			choice = menu.displaySearchResults(formattedResults);
+			processSearchChoice(choice, formattedResults.size());
+			break;
+		case 4:
+			System.out.println("\nReturning to Main Menu...");
+			return;
+		}
+	}
+
+	/**
+	 * Searches for toys by serial number.
+	 *
+	 * @param serialNumber The serial number to search for.
+	 * @return A formatted list of search results, including an option to return to
+	 *         the search menu.
+	 */
+	private List<String> searchBySerialNumber(String serialNumber) {
+		List<Toy> results = new ArrayList<>();
+		for (Toy toy : toys) {
+			if (toy.getSn().equals(serialNumber)) { // Match serial number
+				results.add(toy);
+			}
+		}
+		return formatSearchResults(results);
+	}
+
+	/**
+	 * Searches for toys by name.
+	 *
+	 * @param toyName The name of the toy to search for.
+	 * @return A formatted list of search results, including an option to return to
+	 *         the search menu.
+	 */
+	private List<String> searchByName(String toyName) {
+		List<Toy> results = new ArrayList<>();
+		for (Toy toy : toys) {
+			if (toy.getName().equalsIgnoreCase(toyName)) { // Case-insensitive name match
+				results.add(toy);
+			}
+		}
+		return formatSearchResults(results);
+	}
+
+	/**
+	 * Searches for toys by type.
+	 *
+	 * @param type The type of the toy to search for.
+	 * @return A formatted list of search results, including an option to return to
+	 *         the search menu.
+	 */
+	private List<String> searchByType(String type) {
+		List<Toy> results = new ArrayList<>();
+		for (Toy toy : toys) {
+			if (toy.getToyType().equalsIgnoreCase(type)) { // Case-insensitive type match
+				results.add(toy);
+			}
+		}
+		return formatSearchResults(results);
+	}
+
+	/**
+	 * Formats the search results in ascending order and adds an option to return to
+	 * the search menu.
+	 * 
+	 * @param results The list of toys matching the search criteria.
+	 * @return A list of formatted strings representing each toy result and a "Back
+	 *         to Search Menu" option.
+	 */
+	private List<String> formatSearchResults(List<Toy> results) {
+		List<String> formattedResults = new ArrayList<>();
+
+		// Format each toy with an ascending number and add to the list
+		int index = 1;
+		for (Toy toy : results) {
+			String formatted = String.format("\t(%d) Category: %s, Serial Number: %s, Name: %s, Price: %.2f", index++,
+					toy.getToyType(), toy.getSn(), toy.getName(), toy.getPrice());
+			formattedResults.add(formatted);
+		}
+
+		// Add the "Back to Search Menu" option at the end
+		formattedResults.add("\t(" + index + ") Back to Search Menu");
+
+		return formattedResults;
+	}
+
+	/**
+	 * Processes the user’s choice from the search results display. If the user
+	 * selects a toy, it is removed from the inventory and the change is saved to
+	 * `toys.txt`. If they choose the "Back to Search Menu" option, they are
+	 * returned to the search menu.
+	 *
+	 * @param choice      The user's choice as an integer.
+	 * @param resultsSize The size of the formatted results list.
+	 */
+	private void processSearchChoice(int choice, int resultsSize) {
+		if (choice == resultsSize) {
+			// If choice is the last entry, return to the search menu
+			System.out.println("Returning to Search Menu...");
+		} else if (choice > 0 && choice < resultsSize) {
+			// Display toy details based on selected option
+			Toy selectedToy = toys.get(choice - 1);
+			System.out.println("Selected Toy Details:");
+			System.out.println(selectedToy); // Assuming Toy has a meaningful toString() method
+
+			// Remove the selected toy from the list
+			toys.remove(selectedToy);
+
+			// Save the updated list back to toys.txt
+			updateData();
+
+			System.out.println("Toy removed and inventory updated.");
+		} else {
+			System.out.println("Invalid selection. Returning to Search Menu.");
+		}
+	}
+
+	/**
+	 * Updates the current list of toys to the `toys.txt` file. This method iterates
+	 * over the `toys` list and writes each toy's data to the file.
+	 */
+	private void updateData() {
+		try (PrintWriter writer = new PrintWriter(new FileWriter("res/toys.txt"))) {
+			for (Toy toy : toys) {
+				writer.println(toy.toDataString()); // Convert each toy to a formatted string for file storage
+			}
+		} catch (IOException e) {
+			System.out.println("Error saving toys to file: " + e.getMessage());
+		}
 	}
 }

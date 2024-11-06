@@ -1,10 +1,12 @@
 package model;
 
 /**
- * Represents an Animal toy with a specific material and size.
+ * Represents an Animal toy with specific attributes including material and
+ * size. Extends the Toy superclass, adding fields unique to animal toys.
+ * Material and size indicate the type and scale of the toy, respectively.
  * 
- * @author Justin, Fatema, Manveet
  * @version 1.0
+ * @author Justin, Fatema, Manveet
  */
 public class Animals extends Toy {
 
@@ -45,7 +47,9 @@ public class Animals extends Toy {
 	}
 
 	/**
-	 * @return the material of the animal toy
+	 * Gets the material of the animal toy.
+	 * 
+	 * @return the material of the toy (e.g., "Plastic", "Fabric").
 	 */
 	public String getMaterial() {
 		return material;
@@ -54,14 +58,17 @@ public class Animals extends Toy {
 	/**
 	 * Sets the material of the animal toy.
 	 *
-	 * @param material the material to set
+	 * @param material the material to set, describing what the toy is made of
+	 *                 (e.g., "Plastic", "Fabric").
 	 */
 	public void setMaterial(String material) {
 		this.material = material;
 	}
 
 	/**
-	 * @return the size of the animal toy
+	 * Gets the size of the animal toy.
+	 * 
+	 * @return the size of the toy ('S' for Small, 'M' for Medium, 'L' for Large).
 	 */
 	public char getSize() {
 		return size;
@@ -70,8 +77,8 @@ public class Animals extends Toy {
 	/**
 	 * Sets the size of the animal toy.
 	 *
-	 * @param size the size to set; must be 'S', 'M', or 'L'
-	 * @throws IllegalArgumentException if size is invalid
+	 * @param size the size to set; must be 'S', 'M', or 'L'.
+	 * @throws IllegalArgumentException if size is not 'S', 'M', or 'L'.
 	 */
 	public void setSize(char size) {
 		if (size != 'S' && size != 'M' && size != 'L') {
@@ -83,7 +90,7 @@ public class Animals extends Toy {
 	/**
 	 * Returns the toy type as "Animal".
 	 *
-	 * @return the toy type
+	 * @return a string indicating the toy type as "Animal".
 	 */
 	@Override
 	public String getToyType() {
@@ -91,9 +98,10 @@ public class Animals extends Toy {
 	}
 
 	/**
-	 * Returns a formatted string with details specific to the Animal toy.
+	 * Returns a formatted string representation of the animal toy's details,
+	 * including details from the Toy superclass along with material and size.
 	 *
-	 * @return a string representation of the animal toy's details
+	 * @return a string representation of the animal toy's details.
 	 */
 	@Override
 	public String toString() {
@@ -101,13 +109,16 @@ public class Animals extends Toy {
 	}
 
 	/**
-	 * Returns a string formatted for saving to `toys.txt`.
+	 * Returns a string formatted for saving the animal toy's data to a file. The
+	 * format is compatible with the `toys.txt` file and includes all relevant
+	 * details about the toy, separated by semicolons.
 	 *
-	 * @return a string representation of the toy's data for file storage
+	 * @return a string representation of the toy's data for file storage.
 	 */
 	@Override
 	public String toDataString() {
-		return String.join(";", sn, name, brand, String.valueOf(price), String.valueOf(availableCount),
-				String.valueOf(ageAppropriate), material, String.valueOf(size));
+		return String.join(";", getSn(), getName(), getBrand(), String.valueOf(getPrice()),
+				String.valueOf(getAvailableCount()), String.valueOf(getAgeAppropriate()), material,
+				String.valueOf(size));
 	}
 }

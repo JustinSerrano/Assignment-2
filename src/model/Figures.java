@@ -1,14 +1,16 @@
 package model;
 
 /**
- * Represents a Figure toy with a specific classification.
+ * Represents a Figure toy with a specific classification. Classification types
+ * include 'A' for Action, 'D' for Doll, and 'H' for Historic. Extends the Toy
+ * superclass by adding a classification field specific to Figure toys.
  * 
- * @author Justin, Fatema, Manveet
  * @version 1.0
+ * @author Justin, Fatema, Manveet
  */
 public class Figures extends Toy {
 
-	private char classification; // 'A' for Action, 'D' for Doll, 'H' for Historic
+	private char classification; // Classification: 'A' for Action, 'D' for Doll, 'H' for Historic
 
 	/**
 	 * Constructs a Figure with the specified attributes.
@@ -22,7 +24,7 @@ public class Figures extends Toy {
 	 * @param ageAppropriate Minimum age appropriate for the figure.
 	 * @param classification Classification type ('A' for Action, 'D' for Doll, 'H'
 	 *                       for Historic).
-	 * @throws IllegalArgumentException if serial number or classification is
+	 * @throws IllegalArgumentException if the serial number or classification is
 	 *                                  invalid.
 	 */
 	public Figures(String sn, String name, String brand, double price, int availableCount, int ageAppropriate,
@@ -43,7 +45,9 @@ public class Figures extends Toy {
 	}
 
 	/**
-	 * @return the classification type of the figure
+	 * Gets the classification type of the figure.
+	 * 
+	 * @return the classification type of the figure ('A', 'D', or 'H').
 	 */
 	public char getClassification() {
 		return classification;
@@ -52,8 +56,9 @@ public class Figures extends Toy {
 	/**
 	 * Sets the classification type for the figure.
 	 *
-	 * @param classification the classification to set ('A', 'D', or 'H')
-	 * @throws IllegalArgumentException if classification is invalid
+	 * @param classification the classification to set ('A' for Action, 'D' for
+	 *                       Doll, 'H' for Historic).
+	 * @throws IllegalArgumentException if classification is not 'A', 'D', or 'H'.
 	 */
 	public void setClassification(char classification) {
 		if (classification != 'A' && classification != 'D' && classification != 'H') {
@@ -65,7 +70,7 @@ public class Figures extends Toy {
 	/**
 	 * Returns the toy type as "Figure".
 	 *
-	 * @return the toy type
+	 * @return a string indicating the toy type as "Figure".
 	 */
 	@Override
 	public String getToyType() {
@@ -73,9 +78,11 @@ public class Figures extends Toy {
 	}
 
 	/**
-	 * Returns a formatted string with details specific to the Figure toy.
+	 * Returns a string representation of the figure's details, including
+	 * information from the Toy superclass and the classification.
 	 *
-	 * @return a string representation of the figure's details
+	 * @return a string representation of the figure's details, including
+	 *         classification.
 	 */
 	@Override
 	public String toString() {
@@ -83,13 +90,16 @@ public class Figures extends Toy {
 	}
 
 	/**
-	 * Returns a string formatted for saving to `toys.txt`.
+	 * Returns a string formatted for saving the figure's data to a file. The format
+	 * is compatible with the `toys.txt` file and includes all relevant details
+	 * about the toy, separated by semicolons.
 	 *
-	 * @return a string representation of the toy's data for file storage
+	 * @return a string representation of the toy's data for file storage.
 	 */
 	@Override
 	public String toDataString() {
-		return String.join(";", sn, name, brand, String.valueOf(price), String.valueOf(availableCount),
-				String.valueOf(ageAppropriate), String.valueOf(classification));
+		return String.join(";", getSn(), getName(), getBrand(), String.valueOf(getPrice()),
+				String.valueOf(getAvailableCount()), String.valueOf(getAgeAppropriate()),
+				String.valueOf(classification));
 	}
 }
