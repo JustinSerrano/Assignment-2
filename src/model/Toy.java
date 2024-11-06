@@ -6,9 +6,9 @@ package model;
 /**
  * 
  */
-public class Toy {
+public abstract class Toy {
 	
-	private int sin;
+	private int sn;
 	private String name;
 	private String brand;
 	private double price;
