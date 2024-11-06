@@ -7,6 +7,8 @@ import controller.AppManager;
 
 /**
  * 
+ * @author Justin
+ * @version 1
  */
 public class AppDriver {
 

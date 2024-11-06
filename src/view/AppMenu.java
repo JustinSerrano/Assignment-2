@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 /**
  * 
+ * @author Justin
+ * @version 1
  */
 public class AppMenu {
 

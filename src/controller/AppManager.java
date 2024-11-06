@@ -3,6 +3,9 @@
  */
 package controller;
 
+import java.io.*;
+import java.util.*;
+
 import view.AppMenu;
 
 /**
@@ -12,13 +15,34 @@ import view.AppMenu;
  */
 public class AppManager {
 
+	private static String FILE_PATH = "res/toys.txt";
 	private AppMenu menu = new AppMenu();
 
 	public AppManager() {
 
-//		loadData();
+		loadData();
 		launchApp(); // Launch the main application menu
 
+	}
+	
+	private void loadData() {
+		
+		try {
+			File file = new File(FILE_PATH);
+			
+			if (!file.exists()) {
+				file.createNewFile();
+			} else {
+				Scanner input = new Scanner(file);
+				
+				while (input.hasNext()) {
+					
+				}
+			}
+			
+		} catch (IOException e) {
+			
+		}
 	}
 
 	private void launchApp() {
