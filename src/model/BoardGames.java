@@ -1,6 +1,8 @@
 package model;
 
+import java.io.File;
 import java.util.Arrays;
+import java.util.Scanner;
 
 /**
  * Represents a Board Game toy with a player range and designers.

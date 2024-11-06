@@ -120,6 +120,7 @@ public class ToyManager {
 			switch (select) {
 			case 1:
 				// TODO: Implement functionality for option 1 (e.g., search inventory)
+				
 				break;
 			case 2:
 				// TODO: Implement functionality for option 2 (e.g., add new toy)
