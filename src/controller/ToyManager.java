@@ -7,45 +7,52 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Manages the toy inventory, including loading from file and displaying the
- * main menu.
+ * Manages the toy inventory, including loading data from file and displaying
+ * the main menu. ToyManager reads the toy data from `toys.txt`, creates Toy
+ * objects, and provides a menu interface.
  * 
- * @author Justin
- * @version 1
+ * @author Justin, Fatema, Manveet
+ * @version 1.0
  */
 public class ToyManager {
 
-	private static final String FILE_PATH = "res/toys.txt";
-	private AppMenu menu = new AppMenu();
-	private ArrayList<Toy> toys = new ArrayList<>(); // Store all toys
+	private static final String FILE_PATH = "res/toys.txt"; // Path to toy data file
+	private AppMenu menu = new AppMenu(); // Menu for displaying application options
+	private ArrayList<Toy> toys = new ArrayList<>(); // List to store all loaded toy objects
 
 	/**
-	 * Constructor that loads data and launches the application.
+	 * Constructor that loads data from the file and launches the application.
+	 * Initializes the application by loading toys from `toys.txt` and starting the
+	 * main menu.
 	 */
 	public ToyManager() {
 		loadData();
-		launchApp(); // Launch the main application menu
+		launchApp(); // Start the main application menu
 	}
 
 	/**
-	 * Loads toy data from the `toys.txt` file.
+	 * Loads toy data from the `toys.txt` file. Each line in the file is parsed to
+	 * create a specific Toy object based on the serial number prefix. If an error
+	 * occurs in parsing, it is logged for review.
 	 */
 	private void loadData() {
 		try {
 			File file = new File(FILE_PATH);
+
+			// Check if the file exists, create a new one if not
 			if (!file.exists()) {
 				file.createNewFile();
 				System.out.println("Created new file: " + FILE_PATH);
 			} else {
 				Scanner input = new Scanner(file);
 
+				// Process each line of the file
 				while (input.hasNext()) {
 					String curLine = input.nextLine();
-					String[] splittedLine = curLine.split(";");
+					String[] splittedLine = curLine.split(";"); // Split line by semicolon to get attributes
 
-					// Check the first digit of the serial number to determine toy type
 					String serialNumber = splittedLine[0];
-					char typeIndicator = serialNumber.charAt(0);
+					char typeIndicator = serialNumber.charAt(0); // Determine toy type based on first digit
 
 					try {
 						Toy toy = null;
@@ -75,6 +82,8 @@ public class ToyManager {
 							String[] playerRange = splittedLine[6].split("-");
 							int minPlayers = Integer.parseInt(playerRange[0]);
 							int maxPlayers = Integer.parseInt(playerRange[1]);
+
+							// Pass `splittedLine[7]` directly as comma-separated designer names
 							toy = new BoardGames(serialNumber, splittedLine[1], splittedLine[2],
 									Double.parseDouble(splittedLine[3]), Integer.parseInt(splittedLine[4]),
 									Integer.parseInt(splittedLine[5]), minPlayers, maxPlayers, splittedLine[7]);
@@ -84,10 +93,10 @@ public class ToyManager {
 						}
 
 						if (toy != null) {
-							toys.add(toy);
+							toys.add(toy); // Add created toy to list
 						}
 					} catch (Exception e) {
-						System.out.println("Error parsing line: " + e.getMessage());
+						System.out.println("Error parsing line: " + curLine + " - " + e.getMessage());
 					}
 				}
 				input.close();
@@ -98,30 +107,30 @@ public class ToyManager {
 	}
 
 	/**
-	 * Launches the main application menu.
+	 * Launches the main application menu, allowing users to interact with the toy
+	 * inventory. Options include searching for toys, adding or removing toys, and
+	 * exiting the application.
 	 */
 	private void launchApp() {
 		menu.printWelcomeMessage();
 		int select;
 		do {
-			select = menu.showMainMenu();
+			select = menu.showMainMenu(); // Guaranteed to be valid (1–4)
+
 			switch (select) {
 			case 1:
-				// TODO: Implement functionality for option 1
+				// TODO: Implement functionality for option 1 (e.g., search inventory)
 				break;
 			case 2:
-				// TODO: Implement functionality for option 2
+				// TODO: Implement functionality for option 2 (e.g., add new toy)
 				break;
 			case 3:
-				// TODO: Implement functionality for option 3
+				// TODO: Implement functionality for option 3 (e.g., remove toy)
 				break;
 			case 4:
 				System.out.println("Exiting application...");
 				break;
-			default:
-				System.out.println("Invalid input... Try Again"); // Prompt for valid input
-				break;
 			}
-		} while (select != 4);
+		} while (select != 4); // Loop until user chooses to exit
 	}
 }

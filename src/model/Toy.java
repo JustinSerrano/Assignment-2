@@ -4,8 +4,8 @@ package model;
  * Abstract superclass representing a general toy. Serves as the base for
  * specific toy types (Figure, Animal, Puzzle, BoardGame).
  * 
- * @author Justin
- * @version 1
+ * @author Justin, Fatema, Manveet
+ * @version 1.0
  */
 public abstract class Toy {
 

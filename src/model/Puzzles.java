@@ -3,8 +3,8 @@ package model;
 /**
  * Represents a Puzzle toy with a specific puzzle type.
  * 
- * @author Justin
- * @version 1
+ * @author Justin, Fatema, Manveet
+ * @version 1.0
  */
 public class Puzzles extends Toy {
 

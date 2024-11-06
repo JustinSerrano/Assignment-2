@@ -1,14 +1,16 @@
-/**
- * 
- */
 package view;
 
+import java.util.*;
 import java.util.Scanner;
 
 /**
+ * Provides the menu interface for the Toy Store Company application. This class
+ * displays the main menu options to the user, processes menu selections, and
+ * includes a welcome message. It interacts with the user via console input and
+ * output.
  * 
- * @author Justin
- * @version 1
+ * @author Justin, Fatema, Manveet
+ * @version 1.0
  */
 public class AppMenu {
 
@@ -16,8 +18,8 @@ public class AppMenu {
 	private Scanner input = new Scanner(System.in); // Scanner for reading user input
 
 	/**
-	 * Prints a formatted welcome message for the toy store company application.
-	 * 
+	 * Prints a formatted welcome message for the Toy Store Company application. The
+	 * message is enclosed within a border of asterisks for emphasis.
 	 */
 	public void printWelcomeMessage() {
 		String formattedMessage = String.format("*     %s     *", "WELCOME TO TOY STORE COMPANY!");
@@ -30,29 +32,34 @@ public class AppMenu {
 		System.out.println("*".repeat(length)); // Dynamically create a border of the same length
 	}
 
-	/**
-	 * Displays the main menu options to the user and retrieves their selection.
-	 * 
-	 * @return The integer value representing the user's menu choice (1, 2, 3, or
-	 *         4).
-	 */
 	public int showMainMenu() {
-		System.out.println("\nHow We May Help You?\n");
-		System.out.println("\t(1) Search Inventory and Purchase Toy");
-		System.out.println("\t(2) Add New Toy");
-		System.out.println("\t(3) Remove Toy");
-		System.out.println("\t(4) Save & Exit");
-		System.out.print("\nEnter option: ");
+		int select = 0; // Default value for menu selection
+		boolean validInput = false; // Track if input is valid
 
-		int select = input.nextInt(); // Read user input
+		do {
+			System.out.println("\nHow We May Help You?\n");
+			System.out.println("\t(1) Search Inventory and Purchase Toy");
+			System.out.println("\t(2) Add New Toy");
+			System.out.println("\t(3) Remove Toy");
+			System.out.println("\t(4) Save & Exit");
+			System.out.print("\nEnter option: ");
 
-		// Validate input; if empty, prompt again
-		if (select < 1 || select > 4) {
-			System.out.println("Invalid input. Please enter a valid option.");
-			return showMainMenu(); // Recursively prompt again
-		}
+			try {
+				select = input.nextInt(); // Attempt to read an integer from user
 
-		return select; // Return the selection
+				// Check if the input is within range
+				if (select >= 1 && select <= 4) {
+					validInput = true; // Set to true if input is valid
+				} else {
+					System.out.println("Invalid input. Please enter a number between 1 and 4.");
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("Invalid input. Please enter a number between 1 and 4.");
+				input.nextLine(); // Clear invalid input
+			}
+		} while (!validInput); // Repeat until valid input is received
+
+		return select; // Return the validated selection
 	}
 
 }
