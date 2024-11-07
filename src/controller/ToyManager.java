@@ -118,11 +118,11 @@ public class ToyManager {
 			select = menu.showMainMenu(); // Guaranteed to be valid (1–4)
 
 			switch (select) {
-			case 1: // Implement functionality for option 1 (e.g., search inventory)
+			case 1: // Searching and purchasing toy
 				handleSearch(); // Call handleSearch
 				break;
-			case 2:
-				// TODO: Implement functionality for option 2 (e.g., add new toy)
+			case 2: // Adding a new toy
+				handleAdd();
 				break;
 			case 3:
 				// TODO: Implement functionality for option 3 (e.g., remove toy)
@@ -255,6 +255,75 @@ public class ToyManager {
 		} else {
 			System.out.println("Invalid selection. Returning to Search Menu.");
 		}
+	}
+
+	/**
+	 * Handles the addition of a new toy to the inventory. Prompts the user for toy
+	 * details and determines the toy type based on the serial number prefix. Each
+	 * toy type requires specific attributes, which are gathered accordingly.
+	 */
+	private void handleAdd() {
+		System.out.print("\nEnter Serial Number: ");
+		String sn = input.nextLine().trim();
+		System.out.print("\nEnter Toy Name: ");
+		String name = input.nextLine().trim();
+		System.out.print("\nEnter Toy Brand: ");
+		String brand = input.nextLine().trim();
+		System.out.print("\nEnter Price: ");
+		double price = input.nextDouble();
+		System.out.print("\nEnter Available Counts: ");
+		int availableCounts = input.nextInt();
+		System.out.print("\nEnter Appropriate Age: ");
+		int appropriateAge = input.nextInt();
+
+		// Determine toy type based on the first digit of the serial number
+		char firstDigit = sn.charAt(0);
+		Toy newToy = null;
+
+		if (firstDigit == '0' || firstDigit == '1') {
+			// Adding a Figure
+			System.out.print("\nEnter Classification (A for Action, D for Doll, H for Historic): ");
+			char classification = Character.toUpperCase(input.next().charAt(0));
+			newToy = new Figures(sn, name, brand, price, availableCounts, appropriateAge, classification);
+		} else if (firstDigit == '2' || firstDigit == '3') {
+			// Adding an Animal
+			System.out.print("\nEnter Material: ");
+			String material = input.next().trim();
+			System.out.print("\nEnter Size (S for Small, M for Medium, L for Large): ");
+			char size = Character.toUpperCase(input.next().charAt(0));
+			newToy = new Animals(sn, name, brand, price, availableCounts, appropriateAge, material, size);
+		} else if (firstDigit == '4' || firstDigit == '5' || firstDigit == '6') {
+			// Adding a Puzzle
+			System.out.print(
+					"\nEnter Puzzle Type (M for Mechanical, C for Cryptic, L for Logic, T for Trivia, R for Riddle): ");
+			char puzzleType = Character.toUpperCase(input.next().charAt(0));
+			newToy = new Puzzles(sn, name, brand, price, availableCounts, appropriateAge, puzzleType);
+		} else if (firstDigit == '7' || firstDigit == '8' || firstDigit == '9') {
+			// Adding a Board Game
+			System.out.print("\nEnter Minimum Number of Players: ");
+			int minPlayers = input.nextInt();
+			System.out.print("\nEnter Maximum Number of Players: ");
+			int maxPlayers = input.nextInt();
+			input.nextLine(); // Clear the buffer
+			System.out.print("\nEnter Designer Names (separate names with commas if more than one): ");
+			String designers = input.nextLine().trim();
+			newToy = new BoardGames(sn, name, brand, price, availableCounts, appropriateAge, minPlayers, maxPlayers,
+					designers);
+		} else {
+			System.out.println("\nInvalid serial number prefix. Unable to determine toy type.");
+			return; // Exit if the serial number prefix is invalid
+		}
+
+		// Add the new toy to the inventory and save to file if the toy was created
+		// successfully
+		if (newToy != null) {
+			toys.add(newToy);
+			updateData(); // Save to toys.txt
+			System.out.println("\nNew Toy Added Successfully!");
+		}
+
+		// Wait for the user to press Enter before returning to the main menu
+		menu.waitForEnterKey();
 	}
 
 	/**
