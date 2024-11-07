@@ -137,4 +137,15 @@ public class AppMenu {
 
 		return choice;
 	}
+
+	/**
+	 * Utility method to wait for the user to press the Enter key before proceeding.
+	 * This allows users to read output before the program continues.
+	 */
+	public void waitForEnterKey() {
+		// Clear the buffer before waiting for Enter
+		input.nextLine(); // Clears the newline character left in the buffer
+		System.out.println("\nPress \"Enter\" to continue..."); // Prompt for Enter key
+		input.nextLine(); // Consume Enter key
+	}
 }
