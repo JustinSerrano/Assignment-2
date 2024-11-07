@@ -84,17 +84,6 @@ public class Puzzles extends Toy {
 	}
 
 	/**
-	 * Returns a formatted string representation of the puzzle's details, including
-	 * information from the Toy superclass and the puzzle type.
-	 *
-	 * @return a string representation of the puzzle's details.
-	 */
-	@Override
-	public String toString() {
-		return super.toString() + ", PuzzleType=" + puzzleType;
-	}
-
-	/**
 	 * Returns a string formatted for saving the puzzle toy's data to a file. The
 	 * format is compatible with the `toys.txt` file and includes all relevant
 	 * details about the toy, separated by semicolons.
@@ -106,4 +95,20 @@ public class Puzzles extends Toy {
 		return String.join(";", getSn(), getName(), getBrand(), String.valueOf(getPrice()),
 				String.valueOf(getAvailableCount()), String.valueOf(getAgeAppropriate()), String.valueOf(puzzleType));
 	}
+
+	/**
+	 * Returns a formatted string representing the puzzle toy’s details, including
+	 * puzzle type. This format is useful for displaying puzzle-specific details
+	 * alongside general toy information.
+	 *
+	 * @return A string representation of the puzzle's details in the format:
+	 *         "Category: [Toy Type], Serial Number: [SN], Name: [Name], Price:
+	 *         [Price], Available Count: [Count], Age Appropriate: [Age], Puzzle
+	 *         Type: [Type]"
+	 */
+	@Override
+	public String toString() {
+		return super.toString() + String.format(", Puzzle Type: %s", puzzleType);
+	}
+
 }

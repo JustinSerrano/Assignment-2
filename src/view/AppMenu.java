@@ -1,8 +1,11 @@
 package view;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+
+import model.Toy;
 
 /**
  * Provides the menu interface for the Toy Store Company application. This class
@@ -136,6 +139,30 @@ public class AppMenu {
 		}
 
 		return choice;
+	}
+
+	/**
+	 * Formats the search results in ascending order and adds an option to return to
+	 * the search menu.
+	 * 
+	 * @param results The list of toys matching the search criteria.
+	 * @return A list of formatted strings representing each toy result and a "Back
+	 *         to Search Menu" option.
+	 */
+	public List<String> formatSearchResults(List<Toy> results) {
+		List<String> formattedResults = new ArrayList<>();
+
+		int index = 1;
+		for (Toy toy : results) {
+			// Format each toy with an ascending index number and its toString() output
+			String formatted = String.format("\t(%d) %s", index++, toy);
+			formattedResults.add(formatted);
+		}
+
+		// Add the "Back to Search Menu" option at the end
+		formattedResults.add("\t(" + index + ") Back to Search Menu");
+
+		return formattedResults;
 	}
 
 	/**

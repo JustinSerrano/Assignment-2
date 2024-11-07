@@ -193,7 +193,7 @@ public class ToyManager {
 				results.add(toy);
 			}
 		}
-		return formatSearchResults(results);
+		return menu.formatSearchResults(results);
 	}
 
 	/**
@@ -212,7 +212,7 @@ public class ToyManager {
 				results.add(toy);
 			}
 		}
-		return formatSearchResults(results);
+		return menu.formatSearchResults(results);
 	}
 
 	/**
@@ -229,32 +229,7 @@ public class ToyManager {
 				results.add(toy);
 			}
 		}
-		return formatSearchResults(results);
-	}
-
-	/**
-	 * Formats the search results in ascending order and adds an option to return to
-	 * the search menu.
-	 * 
-	 * @param results The list of toys matching the search criteria.
-	 * @return A list of formatted strings representing each toy result and a "Back
-	 *         to Search Menu" option.
-	 */
-	private List<String> formatSearchResults(List<Toy> results) {
-		List<String> formattedResults = new ArrayList<>();
-
-		// Format each toy with an ascending number and add to the list
-		int index = 1;
-		for (Toy toy : results) {
-			String formatted = String.format("\t(%d) Category: %s, Serial Number: %s, Name: %s, Price: %.2f", index++,
-					toy.getToyType(), toy.getSn(), toy.getName(), toy.getPrice());
-			formattedResults.add(formatted);
-		}
-
-		// Add the "Back to Search Menu" option at the end
-		formattedResults.add("\t(" + index + ") Back to Search Menu");
-
-		return formattedResults;
+		return menu.formatSearchResults(results);
 	}
 
 	/**

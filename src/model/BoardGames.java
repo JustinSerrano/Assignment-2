@@ -101,18 +101,6 @@ public class BoardGames extends Toy {
 	}
 
 	/**
-	 * Returns a formatted string representation of the board game's details,
-	 * including the player range and designer names.
-	 *
-	 * @return a string representation of the board game's details.
-	 */
-	@Override
-	public String toString() {
-		return super.toString() + ", Players=" + minPlayers + "-" + maxPlayers + ", Designers="
-				+ String.join(", ", designers);
-	}
-
-	/**
 	 * Returns a string formatted for saving the board game toy's data to a file.
 	 * The format is compatible with the `toys.txt` file and includes all relevant
 	 * details about the toy, separated by semicolons.
@@ -123,6 +111,23 @@ public class BoardGames extends Toy {
 	public String toDataString() {
 		return String.join(";", getSn(), getName(), getBrand(), String.valueOf(getPrice()),
 				String.valueOf(getAvailableCount()), String.valueOf(getAgeAppropriate()), minPlayers + "-" + maxPlayers,
+				String.join(", ", designers));
+	}
+
+	/**
+	 * Returns a formatted string representing the board game’s details, including
+	 * minimum and maximum players and designers. This format is designed to be
+	 * useful for displaying board game-specific details in addition to the general
+	 * toy information.
+	 *
+	 * @return A string representation of the board game's details in the format:
+	 *         "Category: [Toy Type], Serial Number: [SN], Name: [Name], Price:
+	 *         [Price], Available Count: [Count], Age Appropriate: [Age], Players:
+	 *         [Min-Max], Designers: [Designers]"
+	 */
+	@Override
+	public String toString() {
+		return super.toString() + String.format(", Players: %d-%d, Designers: %s", minPlayers, maxPlayers,
 				String.join(", ", designers));
 	}
 }

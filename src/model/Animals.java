@@ -98,17 +98,6 @@ public class Animals extends Toy {
 	}
 
 	/**
-	 * Returns a formatted string representation of the animal toy's details,
-	 * including details from the Toy superclass along with material and size.
-	 *
-	 * @return a string representation of the animal toy's details.
-	 */
-	@Override
-	public String toString() {
-		return super.toString() + ", Material=" + material + ", Size=" + size;
-	}
-
-	/**
 	 * Returns a string formatted for saving the animal toy's data to a file. The
 	 * format is compatible with the `toys.txt` file and includes all relevant
 	 * details about the toy, separated by semicolons.
@@ -121,4 +110,17 @@ public class Animals extends Toy {
 				String.valueOf(getAvailableCount()), String.valueOf(getAgeAppropriate()), material,
 				String.valueOf(size));
 	}
+
+	/**
+	 * Returns a formatted string representing the animal toy's details, including
+	 * material and size.
+	 *
+	 * @return A string representation of the animal's details, appended to the base
+	 *         Toy details.
+	 */
+	@Override
+	public String toString() {
+		return super.toString() + String.format(", Material: %s, Size: %s", material, size);
+	}
+
 }

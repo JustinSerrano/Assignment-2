@@ -78,18 +78,6 @@ public class Figures extends Toy {
 	}
 
 	/**
-	 * Returns a string representation of the figure's details, including
-	 * information from the Toy superclass and the classification.
-	 *
-	 * @return a string representation of the figure's details, including
-	 *         classification.
-	 */
-	@Override
-	public String toString() {
-		return super.toString() + ", Classification=" + classification;
-	}
-
-	/**
 	 * Returns a string formatted for saving the figure's data to a file. The format
 	 * is compatible with the `toys.txt` file and includes all relevant details
 	 * about the toy, separated by semicolons.
@@ -101,5 +89,15 @@ public class Figures extends Toy {
 		return String.join(";", getSn(), getName(), getBrand(), String.valueOf(getPrice()),
 				String.valueOf(getAvailableCount()), String.valueOf(getAgeAppropriate()),
 				String.valueOf(classification));
+	}
+	
+	/**
+	 * Returns a formatted string representing the figure toy's details, including classification.
+	 *
+	 * @return A string representation of the figure's details, appended to the base Toy details.
+	 */
+	@Override
+	public String toString() {
+	    return super.toString() + String.format(", Classification: %s", classification);
 	}
 }

@@ -178,15 +178,19 @@ public abstract class Toy {
 	public abstract String toDataString();
 
 	/**
-	 * Returns a formatted string representing the toy details.
+	 * Returns a formatted string representing the toy's details, including
+	 * category, serial number, name, price, available count, and minimum
+	 * appropriate age. This format is designed to be useful for displaying search
+	 * results and inventory details.
 	 *
-	 * @return a string representation of the toy's details, including serial
-	 *         number, name, brand, price, available count, and minimum appropriate
-	 *         age.
+	 * @return A string representation of the toy's details in the format:
+	 *         "Category: [Toy Type], Serial Number: [SN], Name: [Name], Price:
+	 *         [Price], Available Count: [Count], Age Appropriate: [Age]"
 	 */
 	@Override
 	public String toString() {
-		return "Toy [Serial Number=" + sn + ", Name=" + name + ", Brand=" + brand + ", Price=" + price
-				+ ", Available Count=" + availableCount + ", Age Appropriate=" + ageAppropriate + "]";
+		return String.format(
+				"Category: %s, Serial Number: %s, Name: %s, Brand: %s, Price: %.2f, Available Count: %d, Age Appropriate: %d",
+				getToyType(), getSn(), getName(), getBrand(), getPrice(), getAvailableCount(), getAgeAppropriate());
 	}
 }
