@@ -2,6 +2,8 @@ package model;
 
 import java.util.Arrays;
 
+import exceptions.PlayerCountException;
+
 /**
  * Represents a Board Game toy with a player range and a list of designers.
  * Extends the Toy superclass and includes additional attributes specific to
@@ -29,22 +31,10 @@ public class BoardGames extends Toy {
 	 * @param minPlayers     Minimum number of players for the game.
 	 * @param maxPlayers     Maximum number of players for the game.
 	 * @param designer       A comma-separated string of designer names.
-	 * @throws IllegalArgumentException if serial number, player range, or designers
-	 *                                  are invalid.
 	 */
 	public BoardGames(String sn, String name, String brand, double price, int availableCount, int ageAppropriate,
 			int minPlayers, int maxPlayers, String designer) {
 		super(sn, name, brand, price, availableCount, ageAppropriate);
-
-		// Validate that the serial number starts with 7, 8, or 9 and is 10 digits
-		if (!sn.matches("^[789]\\d{9}$")) {
-			throw new IllegalArgumentException("Serial number must start with 7, 8, or 9 and be 10 digits long.");
-		}
-
-		// Validate that minPlayers is less than or equal to maxPlayers
-		if (minPlayers > maxPlayers) {
-			throw new IllegalArgumentException("Minimum players cannot exceed maximum players.");
-		}
 
 		this.minPlayers = minPlayers;
 		this.maxPlayers = maxPlayers;
@@ -111,7 +101,7 @@ public class BoardGames extends Toy {
 	public String toDataString() {
 		return String.join(";", getSn(), getName(), getBrand(), String.valueOf(getPrice()),
 				String.valueOf(getAvailableCount()), String.valueOf(getAgeAppropriate()), minPlayers + "-" + maxPlayers,
-				String.join(", ", designers));
+				String.join(",", designers));
 	}
 
 	/**
