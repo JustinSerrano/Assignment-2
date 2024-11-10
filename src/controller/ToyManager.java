@@ -146,7 +146,8 @@ public class ToyManager {
 				// TODO: Implement functionality for option 2
 				break;
 			case 3:
-				// TODO: Implement functionality for option 3
+				removeToy();
+					
 				break;
 			case 4:
 				System.out.println("Exiting application...");
