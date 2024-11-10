@@ -98,6 +98,39 @@ public class ToyManager {
 	}
 
 	/**
+	 * This method removes a toy from the inventory based on its serial number.
+	 */
+	public void removeToy() {
+	    Scanner scanner = new Scanner(System.in); // Initialize scanner for user input
+
+	    System.out.print("Enter the serial number of the toy to remove: ");
+	    String sn = scanner.nextLine(); // Read the serial number from the user
+
+	    // Variable to track whether the toy was found and removed
+	    boolean removed = false;
+
+	    // Iterate through the toys list to find a toy with the matching serial number
+	    for (int i = 0; i < toys.size(); i++) {
+	        Toy toy = toys.get(i); // Get the toy at index i
+
+	        // Check if the toy's serial number matches the user-provided serial number
+	        if (toy.getSn().equals(sn)) {
+	            toys.remove(i); // Remove the toy from the list
+	            removed = true; // Set removed to true as we have found and removed the toy
+	            break; // Exit the loop since the toy has been removed
+	        }
+	    }
+
+	    // Inform the user if the toy was removed successfully or not
+	    if (removed) {
+	        System.out.println("Toy removed successfully.");
+	    } else {
+	        System.out.println("Toy with serial number " + sn + " not found.");
+	    }
+	}
+
+
+	/**
 	 * Launches the main application menu.
 	 */
 	private void launchApp() {
