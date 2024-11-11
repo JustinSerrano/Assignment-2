@@ -39,14 +39,14 @@ public class AppMenu {
 	/**
 	 * Displays the main menu options to the user and retrieves their selection.
 	 * Options include searching the inventory, adding a new toy, removing a toy,
-	 * and exiting the application.
+	 * gift suggestion, and exiting the application.
 	 * 
 	 * This method validates the input to ensure that the user enters a number
-	 * between 1 and 4. If a non-integer input is entered, it prompts the user with
+	 * between 1 and 5. If a non-integer input is entered, it prompts the user with
 	 * an appropriate error message and asks them to try again.
 	 *
-	 * @return The integer value representing the user's menu choice (1, 2, 3, or
-	 *         4).
+	 * @return The integer value representing the user's menu choice (1, 2, 3, 4, or
+	 *         5).
 	 */
 	public int showMainMenu() {
 		int select = -1; // Set an invalid initial value to ensure the loop starts
@@ -58,14 +58,15 @@ public class AppMenu {
 			System.out.println("\t(1) Search Inventory and Purchase Toy");
 			System.out.println("\t(2) Add New Toy");
 			System.out.println("\t(3) Remove Toy");
-			System.out.println("\t(4) Save & Exit");
+			System.out.println("\t(4) Gift Suggestion");
+			System.out.println("\t(5) Save & Exit");
 			System.out.print("\nEnter option: ");
 
 			try {
 				select = input.nextInt(); // Attempt to read an integer from user
 
 				// Check if the input is within the valid range
-				if (select >= 1 && select <= 4) {
+				if (select >= 1 && select <= 5) {
 					validInput = true; // Mark input as valid
 				} else {
 					// Display a message for out-of-range numbers

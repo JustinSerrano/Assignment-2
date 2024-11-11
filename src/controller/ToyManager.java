@@ -24,8 +24,6 @@ public class ToyManager {
 	private Scanner input = new Scanner(System.in);
 	private ArrayList<Toy> toys = new ArrayList<>(); // List to store all loaded toy objects
 
-	// TODO: *Optional* Gift suggestion
-
 	/**
 	 * Constructor that loads data from the file and launches the application.
 	 * Initializes the application by loading toys from `toys.txt` and starting the
@@ -134,14 +132,14 @@ public class ToyManager {
 
 	/**
 	 * Launches the main application menu, allowing users to interact with the toy
-	 * inventory. Options include searching for toys, adding or removing toys, and
-	 * exiting the application.
+	 * inventory. Options include searching for toys, adding or removing toys, gift
+	 * suggestion, and exiting the application.
 	 */
 	private void launchApp() {
 		menu.printWelcomeMessage();
 		int select;
 		do {
-			select = menu.showMainMenu(); // Guaranteed to be valid (1–4)
+			select = menu.showMainMenu(); // Guaranteed to be valid (1–5)
 
 			switch (select) {
 			case 1: // Searching and purchasing toy
@@ -153,13 +151,16 @@ public class ToyManager {
 			case 3: // Removing a toy)
 				removeToy();
 				break;
-			case 4: // Save the updated list back to toys.txt
+			case 4: // Gift suggestion
+				suggestGift();
+				break;
+			case 5: // Save the updated list back to toys.txt
 				updateData();
 				System.out.println("\nSaving Data Into Database...\n");
 				menu.printExitMessage();
 				break;
 			}
-		} while (select != 4); // Loop until user chooses to exit
+		} while (select != 5); // Loop until user chooses to exit
 	}
 
 	/**
@@ -195,8 +196,7 @@ public class ToyManager {
 				}
 				break;
 			case 3: // Search by Type
-				System.out.print("\nEnter Type: ");
-				String toyType = input.nextLine();
+				String toyType = getValidatedToyType();
 				formattedResults = searchByType(toyType);
 				// Only display results if matches are found
 				if (!formattedResults.get(0).equals("No matching toys found.")) {
@@ -475,6 +475,31 @@ public class ToyManager {
 	}
 
 	/**
+	 * Prompts the user to enter a valid toy type. This method ensures that the toy
+	 * type matches one of the predefined types (e.g., "Figure", "Animal", "Puzzle",
+	 * "BoardGame").
+	 *
+	 * @return A validated toy type as a String.
+	 */
+	private String getValidatedToyType() {
+		String toyType;
+		List<String> validToyTypes = Arrays.asList("Figure", "Animal", "Puzzle", "BoardGame");
+
+		while (true) {
+			System.out.print("\nEnter Type: ");
+			toyType = input.nextLine().trim();
+
+			// Check if the entered type is in the list of valid types
+			if (validToyTypes.contains(toyType)) {
+				return toyType; // Return the valid toy type
+			} else {
+				System.out.println(
+						"\nInvalid toy type. Please enter one of the following: Figure, Animal, Puzzle, BoardGame.");
+			}
+		}
+	}
+
+	/**
 	 * Prompts the user to enter and validate all fields required to create a Figure
 	 * toy. Ensures that the classification is one of 'A', 'D', or 'H'
 	 * (case-insensitive).
@@ -611,7 +636,7 @@ public class ToyManager {
 			try {
 				System.out.print("\nEnter Minimum Number of Players: ");
 				minPlayers = getValidatedNonNegativeInt();
-				
+
 				System.out.println();
 
 				System.out.print("Enter Maximum Number of Players: ");
@@ -687,6 +712,181 @@ public class ToyManager {
 
 		// Wait for user to press Enter before returning to the main menu
 		menu.waitForEnterKey();
+	}
+
+	/**
+	 * Provides a gift suggestion based on optional age, type, and price range
+	 * criteria. The user can input any combination of criteria, or leave 1-2 of
+	 * them empty. Shows a list of suggestions that match the input criteria.
+	 */
+	private void suggestGift() {
+		// Prompt user for each criterion (allowing them to skip any)
+		Integer minAge = getOptionalNonNegativeInt();
+		Double maxPrice = getOptionalPrice();
+		String toyType = getOptionalToyType();
+
+		// Find matching toys based on criteria
+		List<Toy> suggestions = filterToysByCriteria(minAge, maxPrice, toyType);
+
+		// Display results
+		if (suggestions.isEmpty()) {
+			System.out.println("\nNo matching items found for the selected criteria.");
+		} else {
+			System.out.println("\nSuggested items:");
+			List<String> formattedSuggestions = menu.formatSearchResults(suggestions);
+			formattedSuggestions.forEach(System.out::println);
+
+			// Allow user to choose an item to purchase
+			System.out.print("\nEnter option number to purchase: ");
+			int choice = input.nextInt();
+			if (choice > 0 && choice <= suggestions.size()) {
+				Toy selectedToy = suggestions.get(choice - 1);
+				completePurchase(selectedToy);
+			} else {
+				System.out.println("\nReturning to the main menu...");
+			}
+		}
+	}
+
+	/**
+	 * Prompts the user to enter a price, allowing them to skip by pressing Enter.
+	 * Ensures the price is non-negative if provided, and handles invalid input.
+	 *
+	 * @return A validated price as a Double, or null if skipped.
+	 */
+	private Double getOptionalPrice() {
+		Double price;
+
+		while (true) {
+			System.out.print("\nEnter maximum price (or leave blank to skip): ");
+			String inputLine = input.nextLine().trim();
+
+			// Allow skipping by returning null if input is blank
+			if (inputLine.isEmpty()) {
+				return null;
+			}
+
+			try {
+				price = Double.parseDouble(inputLine);
+
+				// Throw an exception if the price is negative
+				if (price < 0) {
+					throw new NegativeNumberException("\nPrice cannot be negative! Try again.");
+				}
+
+				return price; // Valid price entered
+			} catch (NegativeNumberException e) {
+				System.out.println(e.getMessage()); // Display custom error message
+			} catch (NumberFormatException e) {
+				System.out.println("\nInvalid input. Please enter a valid price or press Enter to skip.");
+			}
+		}
+	}
+
+	/**
+	 * Prompts the user to enter a non-negative integer, allowing them to skip by
+	 * pressing Enter. Ensures the integer is non-negative if provided, and handles
+	 * invalid input.
+	 *
+	 * @return A validated non-negative integer, or null if skipped.
+	 */
+	private Integer getOptionalNonNegativeInt() {
+		Integer value;
+
+		while (true) {
+			System.out.print("\nEnter minimum age (or leave blank to skip): ");
+			String inputLine = input.nextLine().trim();
+
+			// Allow skipping by returning null if input is blank
+			if (inputLine.isEmpty()) {
+				return null;
+			}
+
+			try {
+				value = Integer.parseInt(inputLine);
+
+				// Ensure the value is non-negative
+				if (value >= 0) {
+					return value;
+				} else {
+					throw new NegativeNumberException("\nThe number must be non-negative. Try again.");
+				}
+			} catch (NegativeNumberException e) {
+				System.out.println(e.getMessage()); // Display the custom error message
+			} catch (NumberFormatException e) {
+				System.out.println("\nInvalid input. Please enter a non-negative integer or press Enter to skip.");
+			}
+		}
+	}
+
+	/**
+	 * Prompts the user to enter a toy type or skip. This method ensures that if a
+	 * toy type is entered, it matches one of the predefined types (e.g., "Figure",
+	 * "Animal", "Puzzle", "BoardGame"). If no input is provided, the method returns
+	 * null, indicating no preference.
+	 *
+	 * @return A validated toy type as a String, or null if the user skips the
+	 *         input.
+	 */
+	private String getOptionalToyType() {
+		String toyType;
+		List<String> validToyTypes = Arrays.asList("Figure", "Animal", "Puzzle", "BoardGame");
+
+		while (true) {
+			System.out.print("\nEnter Type (or leave blank to skip): ");
+			toyType = input.nextLine().trim();
+
+			// Allow skipping by returning null if input is empty
+			if (toyType.isEmpty()) {
+				return null;
+			}
+
+			// Check if the entered type is in the list of valid types
+			if (validToyTypes.contains(toyType)) {
+				return toyType; // Return the valid toy type
+			} else {
+				System.out.println(
+						"\nInvalid toy type. Please enter one of the following: Figure, Animal, Puzzle, BoardGame.");
+			}
+		}
+	}
+
+	/**
+	 * Filters the toys list based on the specified criteria.
+	 *
+	 * @param minAge   The minimum age for the toy (can be null if not specified).
+	 * @param maxPrice The maximum price for the toy (can be null if not specified).
+	 * @param toyType  The toy type to filter by (can be null if not specified).
+	 * @return A list of toys matching the criteria.
+	 */
+	private List<Toy> filterToysByCriteria(Integer minAge, Double maxPrice, String toyType) {
+		List<Toy> filteredToys = new ArrayList<>();
+		for (Toy toy : toys) {
+			if ((minAge == null || toy.getAgeAppropriate() >= minAge)
+					&& (maxPrice == null || toy.getPrice() <= maxPrice)
+					&& (toyType == null || toy.getToyType().equalsIgnoreCase(toyType))) {
+				filteredToys.add(toy);
+			}
+		}
+		return filteredToys;
+	}
+
+	/**
+	 * Completes the purchase for the selected toy.
+	 *
+	 * @param toy The toy the user has chosen to purchase.
+	 */
+	private void completePurchase(Toy toy) {
+		System.out.print("\nDo you want to purchase it (Y/N): ");
+		char confirm = Character.toUpperCase(input.next().charAt(0));
+		if (confirm == 'Y') {
+			toys.remove(toy);
+			System.out.println("\nThank you for your purchase!");
+			// Wait for user to press Enter before continuing
+			menu.waitForEnterKey();
+		} else {
+			System.out.println("\nPurchase cancelled. Returning to main menu.");
+		}
 	}
 
 	/**
