@@ -5,8 +5,8 @@ package model;
  * Logic, Trivia, or Riddle. Extends the Toy superclass and adds the
  * `puzzleType` attribute specific to puzzles.
  * 
- * @version 1.0
  * @author Justin, Fatema, Manveet
+ * @version 2.0
  */
 public class Puzzles extends Toy {
 

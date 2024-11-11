@@ -13,7 +13,8 @@ import model.Toy;
  * and includes a welcome message. It interacts with the user via console input
  * and output.
  * 
- * @version 1.0 author Justin, Fatema, Manveet
+ * @author Justin, Fatema, Manveet
+ * @version 2.0
  */
 public class AppMenu {
 
@@ -39,14 +40,19 @@ public class AppMenu {
 	 * Displays the main menu options to the user and retrieves their selection.
 	 * Options include searching the inventory, adding a new toy, removing a toy,
 	 * and exiting the application.
+	 * 
+	 * This method validates the input to ensure that the user enters a number
+	 * between 1 and 4. If a non-integer input is entered, it prompts the user with
+	 * an appropriate error message and asks them to try again.
 	 *
 	 * @return The integer value representing the user's menu choice (1, 2, 3, or
 	 *         4).
 	 */
 	public int showMainMenu() {
-		int select = 0; // Default value for menu selection
+		int select = -1; // Set an invalid initial value to ensure the loop starts
 		boolean validInput = false; // Track if input is valid
 
+		// Loop until valid input is received
 		do {
 			System.out.println("\nHow We May Help You?\n");
 			System.out.println("\t(1) Search Inventory and Purchase Toy");
@@ -58,14 +64,16 @@ public class AppMenu {
 			try {
 				select = input.nextInt(); // Attempt to read an integer from user
 
-				// Check if the input is within range
+				// Check if the input is within the valid range
 				if (select >= 1 && select <= 4) {
-					validInput = true; // Set to true if input is valid
+					validInput = true; // Mark input as valid
 				} else {
-					System.out.println("Invalid input. Please enter a number between 1 and 4.");
+					// Display a message for out-of-range numbers
+					System.out.println("\nThis is Not a Valid Option! Try again.");
 				}
 			} catch (InputMismatchException e) {
-				System.out.println("Invalid input. Please enter a number between 1 and 4.");
+				// Display a message for non-integer input
+				System.out.println("\nThis is Not an Integer Number! Try again.");
 				input.nextLine(); // Clear invalid input
 			}
 		} while (!validInput); // Repeat until valid input is received
@@ -100,10 +108,12 @@ public class AppMenu {
 				if (select >= 1 && select <= 4) {
 					validInput = true; // Set to true if input is valid
 				} else {
-					System.out.println("Invalid input. Please enter a number between 1 and 4.");
+					// Display a message for out-of-range numbers
+					System.out.println("\nThis is Not a Valid Option! Try again.");
 				}
 			} catch (InputMismatchException e) {
-				System.out.println("Invalid input. Please enter a number between 1 and 4.");
+				// Display a message for non-integer input
+				System.out.println("\nThis is Not an Integer Number! Try again.");
 				input.nextLine(); // Clear invalid input
 			}
 		} while (!validInput); // Repeat until valid input is received
@@ -174,5 +184,21 @@ public class AppMenu {
 		input.nextLine(); // Clears the newline character left in the buffer
 		System.out.println("\nPress \"Enter\" to continue..."); // Prompt for Enter key
 		input.nextLine(); // Consume Enter key
+	}
+
+	/**
+	 * Prints a farewell message to the user, formatted within asterisks for
+	 * emphasis. This method is typically called when the user exits the
+	 * application.
+	 */
+	public void printExitMessage() {
+		// Message to display upon exit
+		String message = "THANKS FOR VISITING US!";
+
+		// Format the message with asterisks surrounding it
+		String formattedMessage = String.format("*********** %s ***********", message);
+
+		// Print the single-line formatted exit message
+		System.out.println(formattedMessage);
 	}
 }

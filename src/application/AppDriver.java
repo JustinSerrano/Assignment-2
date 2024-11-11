@@ -7,8 +7,9 @@ import controller.ToyManager;
  * ToyManager, which is responsible for loading toy data, managing user
  * interactions, and launching the main menu.
  * 
- * @version 1.0
+ * 
  * @author Justin, Fatema, Manveet
+ * @version 2.0
  */
 public class AppDriver {
 

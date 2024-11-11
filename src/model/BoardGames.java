@@ -9,8 +9,8 @@ import exceptions.PlayerCountException;
  * Extends the Toy superclass and includes additional attributes specific to
  * board games.
  * 
- * @version 1.0
  * @author Justin, Fatema, Manveet
+ * @version 2.0
  */
 public class BoardGames extends Toy {
 

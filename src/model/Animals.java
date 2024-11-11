@@ -5,8 +5,8 @@ package model;
  * size. Extends the Toy superclass, adding fields unique to animal toys.
  * Material and size indicate the type and scale of the toy, respectively.
  * 
- * @version 1.0
- * @author Justin, Fatema, Manveet
+ * @author Justin, Fatema, Manveet 
+ * @version 2.0
  */
 public class Animals extends Toy {
 

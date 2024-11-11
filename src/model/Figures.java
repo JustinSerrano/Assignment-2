@@ -5,8 +5,9 @@ package model;
  * include 'A' for Action, 'D' for Doll, and 'H' for Historic. Extends the Toy
  * superclass by adding a classification field specific to Figure toys.
  * 
- * @version 1.0
+ * 
  * @author Justin, Fatema, Manveet
+ * @version 2.0
  */
 public class Figures extends Toy {
 
@@ -90,14 +91,16 @@ public class Figures extends Toy {
 				String.valueOf(getAvailableCount()), String.valueOf(getAgeAppropriate()),
 				String.valueOf(classification));
 	}
-	
+
 	/**
-	 * Returns a formatted string representing the figure toy's details, including classification.
+	 * Returns a formatted string representing the figure toy's details, including
+	 * classification.
 	 *
-	 * @return A string representation of the figure's details, appended to the base Toy details.
+	 * @return A string representation of the figure's details, appended to the base
+	 *         Toy details.
 	 */
 	@Override
 	public String toString() {
-	    return super.toString() + String.format(", Classification: %s", classification);
+		return super.toString() + String.format(", Classification: %s", classification);
 	}
 }
