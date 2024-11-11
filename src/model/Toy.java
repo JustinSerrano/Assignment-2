@@ -2,19 +2,21 @@ package model;
 
 /**
  * Abstract superclass representing a general toy. Serves as the base for
- * specific toy types (Figure, Animal, Puzzle, BoardGame).
+ * specific toy types (e.g., Figure, Animal, Puzzle, BoardGame). Contains common
+ * attributes and methods shared across different toy types. Each subclass must
+ * implement specific behavior for `getToyType` and `toDataString`.
  * 
- * @author Justin
- * @version 1
+ * @author Justin, Fatema, Manveet
+ * @version 2.0
  */
 public abstract class Toy {
 
-	protected String sn; // Serial Number: unique identifier for each toy
-	protected String name; // Name of the toy
-	protected String brand; // Brand of the toy
-	protected double price; // Price of the toy
-	protected int availableCount; // Available stock count
-	protected int ageAppropriate; // Minimum age appropriate for the toy
+	private String sn; // Serial Number: unique identifier for each toy
+	private String name; // Name of the toy
+	private String brand; // Brand of the toy
+	private double price; // Price of the toy
+	private int availableCount; // Available stock count
+	private int ageAppropriate; // Minimum age appropriate for the toy
 
 	/**
 	 * Constructor for creating a Toy with common attributes.
@@ -22,113 +24,137 @@ public abstract class Toy {
 	 * @param sn             Unique serial number for the toy.
 	 * @param name           Name of the toy.
 	 * @param brand          Brand name of the toy.
-	 * @param price          Price of the toy; must be non-negative.
+	 * @param price          Price of the toy, assumed to be validated externally.
 	 * @param availableCount Stock count for the toy.
 	 * @param ageAppropriate Minimum age appropriate for the toy.
-	 * @throws IllegalArgumentException if price is negative.
 	 */
-	protected Toy(String sn, String name, String brand, double price, int availableCount, int ageAppropriate) {
-		if (price < 0) {
-			throw new IllegalArgumentException("Price cannot be negative.");
-		}
+	public Toy(String sn, String name, String brand, double price, int availableCount, int ageAppropriate) {
 		this.sn = sn;
 		this.name = name;
 		this.brand = brand;
-		this.price = price;
+		this.price = price; // Price is set directly without validation here
 		this.availableCount = availableCount;
 		this.ageAppropriate = ageAppropriate;
 	}
 
-	// Getters and Setters for each field with Javadoc for clarity
 	/**
-	 * @return the serial number
+	 * Gets the serial number of the toy.
+	 * 
+	 * @return the serial number of the toy as a String.
 	 */
-	protected String getSn() {
+	public String getSn() {
 		return sn;
 	}
 
 	/**
-	 * @param sn the serial number to set
+	 * Sets the serial number of the toy.
+	 * 
+	 * @param sn the serial number to set. This should be a unique identifier for
+	 *           each toy.
 	 */
-	protected void setSn(String sn) {
+	public void setSn(String sn) {
 		this.sn = sn;
 	}
 
 	/**
-	 * @return the name of the toy
+	 * Gets the name of the toy.
+	 * 
+	 * @return the name of the toy as a String.
 	 */
-	protected String getName() {
+	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name the name to set
+	 * Sets the name of the toy.
+	 * 
+	 * @param name the name to set for the toy. This should be a non-empty string
+	 *             representing the toy's name.
 	 */
-	protected void setName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * @return the brand of the toy
+	 * Gets the brand of the toy.
+	 * 
+	 * @return the brand of the toy as a String.
 	 */
-	protected String getBrand() {
+	public String getBrand() {
 		return brand;
 	}
 
 	/**
-	 * @param brand the brand to set
+	 * Sets the brand of the toy.
+	 * 
+	 * @param brand the brand to set for the toy. This should be a non-empty string
+	 *              representing the toy's brand.
 	 */
-	protected void setBrand(String brand) {
+	public void setBrand(String brand) {
 		this.brand = brand;
 	}
 
 	/**
-	 * @return the price of the toy
+	 * Gets the price of the toy.
+	 * 
+	 * @return the price of the toy as a double.
 	 */
-	protected double getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
 	/**
-	 * @param price the price to set; must be non-negative.
+	 * Sets the price of the toy.
+	 * 
+	 * @param price the price to set, assumed to be validated externally.
 	 */
-	protected void setPrice(double price) {
-		if (price < 0) {
-			throw new IllegalArgumentException("Price cannot be negative.");
-		}
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
 	/**
-	 * @return the available stock count
+	 * Gets the available stock count of the toy.
+	 * 
+	 * @return the available stock count as an integer.
 	 */
-	protected int getAvailableCount() {
+	public int getAvailableCount() {
 		return availableCount;
 	}
 
 	/**
-	 * @param availableCount the available stock count to set
+	 * Sets the available stock count of the toy.
+	 * 
+	 * @param availableCount the available stock count to set. This should be a
+	 *                       non-negative integer representing the number of toys in
+	 *                       stock.
 	 */
-	protected void setAvailableCount(int availableCount) {
+	public void setAvailableCount(int availableCount) {
 		this.availableCount = availableCount;
 	}
 
 	/**
-	 * @return the minimum appropriate age
+	 * Gets the minimum appropriate age for the toy.
+	 * 
+	 * @return the minimum age for which the toy is deemed appropriate.
 	 */
-	protected int getAgeAppropriate() {
+	public int getAgeAppropriate() {
 		return ageAppropriate;
 	}
 
 	/**
-	 * @param ageAppropriate the minimum appropriate age to set
+	 * Sets the minimum appropriate age for the toy.
+	 * 
+	 * @param ageAppropriate the minimum age appropriate for the toy. This should be
+	 *                       a non-negative integer representing the age
+	 *                       suitability.
 	 */
-	protected void setAgeAppropriate(int ageAppropriate) {
+	public void setAgeAppropriate(int ageAppropriate) {
 		this.ageAppropriate = ageAppropriate;
 	}
 
 	/**
-	 * Abstract method for getting the toy type as a string.
+	 * Abstract method for getting the toy type as a string. Must be implemented by
+	 * subclasses to return the specific type of the toy.
 	 *
 	 * @return the type of the toy (e.g., "Figure", "Animal").
 	 */
@@ -144,13 +170,19 @@ public abstract class Toy {
 	public abstract String toDataString();
 
 	/**
-	 * Returns a formatted string representing the toy details.
+	 * Returns a formatted string representing the toy's details, including
+	 * category, serial number, name, price, available count, and minimum
+	 * appropriate age. This format is designed to be useful for displaying search
+	 * results and inventory details.
 	 *
-	 * @return a string representation of the toy's details
+	 * @return A string representation of the toy's details in the format:
+	 *         "Toy Type: [Toy Type], Serial Number: [SN], Name: [Name], Price:
+	 *         [Price], Available Count: [Count], Age Appropriate: [Age]"
 	 */
 	@Override
 	public String toString() {
-		return "Toy [Serial Number=" + sn + ", Name=" + name + ", Brand=" + brand + ", Price=" + price
-				+ ", Available Count=" + availableCount + ", Age Appropriate=" + ageAppropriate + "]";
+		return String.format(
+				"Toy Type: %s, Serial Number: %s, Name: %s, Brand: %s, Price: %.2f, Available Count: %d, Age Appropriate: %d",
+				getToyType(), getSn(), getName(), getBrand(), getPrice(), getAvailableCount(), getAgeAppropriate());
 	}
 }

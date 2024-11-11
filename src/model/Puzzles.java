@@ -1,21 +1,23 @@
 package model;
 
 /**
- * Represents a Puzzle toy with a specific puzzle type.
+ * Represents a Puzzle toy with a specific type, such as Mechanical, Cryptic,
+ * Logic, Trivia, or Riddle. Extends the Toy superclass and adds the
+ * `puzzleType` attribute specific to puzzles.
  * 
- * @author Justin
- * @version 1
+ * @author Justin, Fatema, Manveet
+ * @version 2.0
  */
 public class Puzzles extends Toy {
 
 	/**
-	 * 'M' for Mechanical, 'C' for Cryptic, 'L' for Logic, 'T' for Trivia, 'R' for
-	 * Riddle
+	 * Type of puzzle: 'M' for Mechanical, 'C' for Cryptic, 'L' for Logic, 'T' for
+	 * Trivia, 'R' for Riddle.
 	 */
 	private char puzzleType;
 
 	/**
-	 * Constructs a Puzzle with the specified attributes.
+	 * Constructs a Puzzle toy with the specified attributes.
 	 *
 	 * @param sn             Unique serial number; must start with 4, 5, or 6 and be
 	 *                       10 digits.
@@ -26,7 +28,8 @@ public class Puzzles extends Toy {
 	 * @param ageAppropriate Minimum age appropriate for the puzzle.
 	 * @param puzzleType     Type of puzzle ('M' for Mechanical, 'C' for Cryptic,
 	 *                       'L' for Logic, 'T' for Trivia, 'R' for Riddle).
-	 * @throws IllegalArgumentException if serial number or puzzle type is invalid.
+	 * @throws IllegalArgumentException if the serial number or puzzle type is
+	 *                                  invalid.
 	 */
 	public Puzzles(String sn, String name, String brand, double price, int availableCount, int ageAppropriate,
 			char puzzleType) {
@@ -47,7 +50,9 @@ public class Puzzles extends Toy {
 	}
 
 	/**
-	 * @return the puzzle type
+	 * Gets the puzzle type of the puzzle toy.
+	 * 
+	 * @return the puzzle type as a character ('M', 'C', 'L', 'T', or 'R').
 	 */
 	public char getPuzzleType() {
 		return puzzleType;
@@ -56,8 +61,9 @@ public class Puzzles extends Toy {
 	/**
 	 * Sets the puzzle type of the puzzle toy.
 	 *
-	 * @param puzzleType the puzzle type to set; must be 'M', 'C', 'L', 'T', or 'R'
-	 * @throws IllegalArgumentException if puzzle type is invalid
+	 * @param puzzleType the puzzle type to set; must be 'M', 'C', 'L', 'T', or 'R'.
+	 * @throws IllegalArgumentException if the puzzle type is not 'M', 'C', 'L',
+	 *                                  'T', or 'R'.
 	 */
 	public void setPuzzleType(char puzzleType) {
 		if (puzzleType != 'M' && puzzleType != 'C' && puzzleType != 'L' && puzzleType != 'T' && puzzleType != 'R') {
@@ -70,7 +76,7 @@ public class Puzzles extends Toy {
 	/**
 	 * Returns the toy type as "Puzzle".
 	 *
-	 * @return the toy type
+	 * @return a string indicating the toy type as "Puzzle".
 	 */
 	@Override
 	public String getToyType() {
@@ -78,23 +84,31 @@ public class Puzzles extends Toy {
 	}
 
 	/**
-	 * Returns a formatted string with details specific to the Puzzle toy.
+	 * Returns a string formatted for saving the puzzle toy's data to a file. The
+	 * format is compatible with the `toys.txt` file and includes all relevant
+	 * details about the toy, separated by semicolons.
 	 *
-	 * @return a string representation of the puzzle's details
-	 */
-	@Override
-	public String toString() {
-		return super.toString() + ", PuzzleType=" + puzzleType;
-	}
-
-	/**
-	 * Returns a string formatted for saving to `toys.txt`.
-	 *
-	 * @return a string representation of the toy's data for file storage
+	 * @return a string representation of the toy's data for file storage.
 	 */
 	@Override
 	public String toDataString() {
-		return String.join(";", sn, name, brand, String.valueOf(price), String.valueOf(availableCount),
-				String.valueOf(ageAppropriate), String.valueOf(puzzleType));
+		return String.join(";", getSn(), getName(), getBrand(), String.valueOf(getPrice()),
+				String.valueOf(getAvailableCount()), String.valueOf(getAgeAppropriate()), String.valueOf(puzzleType));
 	}
+
+	/**
+	 * Returns a formatted string representing the puzzle toy’s details, including
+	 * puzzle type. This format is useful for displaying puzzle-specific details
+	 * alongside general toy information.
+	 *
+	 * @return A string representation of the puzzle's details in the format:
+	 *         "Category: [Toy Type], Serial Number: [SN], Name: [Name], Price:
+	 *         [Price], Available Count: [Count], Age Appropriate: [Age], Puzzle
+	 *         Type: [Type]"
+	 */
+	@Override
+	public String toString() {
+		return super.toString() + String.format(", Puzzle Type: %s", puzzleType);
+	}
+
 }
