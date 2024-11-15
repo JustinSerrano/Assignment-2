@@ -1,6 +1,3 @@
-2835360879;Cow;Game Assassin;19.52;3;7;Plastic;M
-8616804705;Mikado;Game Pixel;9.32;9;9;1-4;Haniya Woodley
-3066990646;Horse;Gamescape;165.61;1;7;Wooden;L
 5726898779;Pocket Cube;Game Orc;42.83;1;4;M
 3015547049;Dove;Game Zombie;24.55;2;9;Wooden;S
 1147205649;Ninja Turtles;Gamezoid;46.15;10;6;A
