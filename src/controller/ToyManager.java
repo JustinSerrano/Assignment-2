@@ -300,12 +300,12 @@ public class ToyManager {
 			if (newCount <= 0) {
 				// Remove toy from the inventory if stock is depleted
 				toys.remove(selectedToy);
-				System.out.println("\nThe Transaction Successfully Terminated!");
 			} else {
 				// Update the toy's stock count
 				selectedToy.setAvailableCount(newCount);
-				System.out.println("\nThe Transaction Successfully Terminated!");
 			}
+
+			System.out.println("\nThe Transaction Successfully Terminated!");
 
 			// Wait for user to press Enter before continuing
 			menu.waitForEnterKey();
