@@ -172,36 +172,36 @@ public class ToyManager {
 		while (true) {
 			int select = menu.showSearchMenu(); // Show search menu each time
 
-			List<String> formattedResults;
+			List<Toy> filteredResults;
 			int choice;
 
 			switch (select) {
 			case 1: // Search by Serial Number
 				String serialNumber = getValidatedSerialNumber();
-				formattedResults = searchBySerialNumber(serialNumber);
+				filteredResults = searchBySerialNumber(serialNumber);
 				// Only display results if matches are found
-				if (!formattedResults.get(0).equals("No matching toys found.")) {
-					choice = menu.displaySearchResults(formattedResults);
-					processSearchChoice(choice, formattedResults.size());
+				if (!filteredResults.isEmpty()) {
+					choice = menu.displaySearchResults(menu.formatSearchResults(filteredResults));
+					processSearchChoice(choice, filteredResults);
 				}
 				break;
 			case 2: // Search by Toy Name
 				System.out.print("\nEnter Toy Name: ");
 				String toyName = input.nextLine();
-				formattedResults = searchByName(toyName);
+				filteredResults = searchByName(toyName);
 				// Only display results if matches are found
-				if (!formattedResults.get(0).equals("No matching toys found.")) {
-					choice = menu.displaySearchResults(formattedResults);
-					processSearchChoice(choice, formattedResults.size());
+				if (!filteredResults.isEmpty()) {
+					choice = menu.displaySearchResults(menu.formatSearchResults(filteredResults));
+					processSearchChoice(choice, filteredResults);
 				}
 				break;
 			case 3: // Search by Type
 				String toyType = getValidatedToyType();
-				formattedResults = searchByType(toyType);
+				filteredResults = searchByType(toyType);
 				// Only display results if matches are found
-				if (!formattedResults.get(0).equals("No matching toys found.")) {
-					choice = menu.displaySearchResults(formattedResults);
-					processSearchChoice(choice, formattedResults.size());
+				if (!filteredResults.isEmpty()) {
+					choice = menu.displaySearchResults(menu.formatSearchResults(filteredResults));
+					processSearchChoice(choice, filteredResults);
 				}
 				break;
 			case 4:
@@ -214,96 +214,103 @@ public class ToyManager {
 	}
 
 	/**
-	 * Searches for toys by serial number.
+	 * Searches for toys by their serial number.
 	 *
-	 * @param serialNumber The serial number to search for.
-	 * @return A formatted list of search results, including an option to return to
-	 *         the search menu.
+	 * @param serialNumber The serial number of the toy to search for.
+	 * @return A list of toys matching the given serial number. Returns an empty
+	 *         list if no matches are found.
 	 */
-	private List<String> searchBySerialNumber(String serialNumber) {
+	private List<Toy> searchBySerialNumber(String serialNumber) {
 		List<Toy> results = new ArrayList<>();
 		for (Toy toy : toys) {
-			if (toy.getSn().equals(serialNumber)) { // Match serial number
+			if (toy.getSn().equals(serialNumber)) { // Exact serial number match
 				results.add(toy);
 			}
 		}
 
-		// Check if results are empty and notify the user if no match was found
+		// Notify the user if no matches are found
 		if (results.isEmpty()) {
 			System.out.println("No toy found with the serial number: " + serialNumber);
-			return Collections.singletonList("No matching toys found.");
 		}
-		return menu.formatSearchResults(results);
+		return results;
 	}
 
 	/**
-	 * Searches for toys by name.
+	 * Searches for toys by their name.
 	 *
-	 * @param toyName The name of the toy to search for.
-	 * @return A formatted list of search results, including an option to return to
-	 *         the search menu.
+	 * @param toyName The name (or partial name) of the toy to search for.
+	 * @return A list of toys whose names contain the given input
+	 *         (case-insensitive). Returns an empty list if no matches are found.
 	 */
-	private List<String> searchByName(String toyName) {
+	private List<Toy> searchByName(String toyName) {
 		List<Toy> results = new ArrayList<>();
 		for (Toy toy : toys) {
-			// Use contains to allow partial matches,
-			// and ignore case by converting both sides to lowercase
+			// Allow partial matches and ignore case
 			if (toy.getName().toLowerCase().contains(toyName.toLowerCase())) {
 				results.add(toy);
 			}
 		}
 
-		// Check if results are empty and notify the user if no match was found
+		// Notify the user if no matches are found
 		if (results.isEmpty()) {
 			System.out.println("No toy found with the name: " + toyName);
-			return Collections.singletonList("No matching toys found.");
 		}
-		return menu.formatSearchResults(results);
+		return results;
 	}
 
 	/**
-	 * Searches for toys by type.
+	 * Searches for toys by their type.
 	 *
-	 * @param type The type of the toy to search for.
-	 * @return A formatted list of search results, including an option to return to
-	 *         the search menu.
+	 * @param type The type of the toy to search for (e.g., "Puzzle", "Figure").
+	 * @return A list of toys matching the given type (case-insensitive). Returns an
+	 *         empty list if no matches are found.
 	 */
-	private List<String> searchByType(String type) {
+	private List<Toy> searchByType(String type) {
 		List<Toy> results = new ArrayList<>();
 		for (Toy toy : toys) {
-			if (toy.getToyType().equalsIgnoreCase(type)) { // Case-insensitive type match
+			if (toy.getToyType().equalsIgnoreCase(type)) { // Case-insensitive match
 				results.add(toy);
 			}
 		}
-		// Check if results are empty and notify the user if no match was found
+
+		// Notify the user if no matches are found
 		if (results.isEmpty()) {
 			System.out.println("No toy found with the type: " + type);
-			return Collections.singletonList("No matching toys found.");
 		}
-		return menu.formatSearchResults(results);
+		return results;
 	}
 
 	/**
-	 * Processes the user’s choice from the search results display. If the user
-	 * selects a toy, it is removed from the inventory. If they choose the "Back to
-	 * Search Menu" option, they are returned to the search menu.
+	 * Processes the user's choice from the search results. If a toy is selected, it
+	 * decrements the stock count and removes the toy from the inventory if the
+	 * count reaches zero. If the user chooses the "Back to Search Menu" option,
+	 * they are returned to the search menu.
 	 *
-	 * @param choice      The user's choice as an integer.
-	 * @param resultsSize The size of the formatted results list.
+	 * @param choice          The user's choice as an integer.
+	 * @param filteredResults The list of toys displayed as search results.
 	 */
-	private void processSearchChoice(int choice, int resultsSize) {
-		if (choice == resultsSize) {
-			// If choice is the last entry, return to the search menu
+	private void processSearchChoice(int choice, List<Toy> filteredResults) {
+		if (choice == filteredResults.size()) {
+			// Return to the search menu
 			System.out.println("Returning to Search Menu...");
-		} else if (choice > 0 && choice < resultsSize) {
-			// Remove the selected toy from the list
-			toys.remove(toys.get(choice - 1));
+		} else if (choice > 0 && choice < filteredResults.size()) {
+			Toy selectedToy = filteredResults.get(choice - 1); // Get the selected toy
+			int newCount = selectedToy.getAvailableCount() - 1; // Decrement available count
 
-			System.out.println("\nThe Transaction Successfully Terminated!");
+			if (newCount <= 0) {
+				// Remove toy from the inventory if stock is depleted
+				toys.remove(selectedToy);
+				System.out.println("\nThe Transaction Successfully Terminated!");
+			} else {
+				// Update the toy's stock count
+				selectedToy.setAvailableCount(newCount);
+				System.out.println("\nThe Transaction Successfully Terminated!");
+			}
 
 			// Wait for user to press Enter before continuing
 			menu.waitForEnterKey();
 		} else {
+			// Handle invalid selections
 			System.out.println("Invalid selection. Returning to Search Menu.");
 		}
 	}
